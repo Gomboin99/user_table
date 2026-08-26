@@ -32,6 +32,8 @@ export function SortableHeader({
   const active = sort.field === field;
   const symbol = active ? indicator[sort.direction] : indicator[SortDirection.None];
 
+  const stop = (e: React.MouseEvent) => e.stopPropagation();
+
   return (
     <th
       className={active ? "sortable active" : "sortable"}
@@ -43,13 +45,18 @@ export function SortableHeader({
             ? "descending"
             : "none"
       }
+      onClick={() => onSort(field)}
     >
-      <span className="th-content sort-trigger" onClick={() => onSort(field)}>
+      <span className="th-content sort-trigger">
         {label}
         <span className="sort-indicator">{symbol}</span>
       </span>
-      {filterControl}
-      <Resizer onResizeStart={onResizeStart} />
+      <div className="th-filter" onClick={stop}>
+        {filterControl}
+      </div>
+      <span className="th-resizer" onClick={stop}>
+        <Resizer onResizeStart={onResizeStart} />
+      </span>
     </th>
   );
 }
