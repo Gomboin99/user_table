@@ -10,21 +10,30 @@
   color: #c0392b;
 }
 
+.status {
+  text-align: center;
+}
+
 .app h1 {
   font-size: 24px;
   margin-bottom: 8px;
+  text-align: center;
 }
 
 .hint {
   color: var(--text-m, #555);
   margin-bottom: 20px;
   font-size: 14px;
+  text-align: center;
 }
 
 .user-table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
   font-size: 14px;
+  margin: 0 auto;
 }
 
 .user-table th,
@@ -32,12 +41,22 @@
   border: 1px solid var(--border, #ddd);
   padding: 10px 12px;
   text-align: left;
+  min-width: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .user-table thead th {
-  background: var(--accent-bg, #f5f5f5);
+  background: #f5f5f5;
   position: sticky;
   top: 0;
+  z-index: 2;
+}
+
+@media (prefers-color-scheme: dark) {
+  .user-table thead th {
+    background: #20222b;
+  }
 }
 
 .user-table th.sortable {
@@ -64,6 +83,111 @@
   opacity: 0.7;
 }
 
+.user-table th {
+  position: relative;
+}
+
+.resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+}
+
+.resizer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 3px;
+  width: 2px;
+  height: 100%;
+  background: var(--border, #ddd);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.user-table th:hover .resizer::after {
+  opacity: 1;
+}
+
+body.resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+.user-table th {
+  overflow: visible;
+}
+
+.th-content.sort-trigger {
+  cursor: pointer;
+  user-select: none;
+}
+
+.filter-control {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  box-sizing: border-box;
+  font-size: 12px;
+  padding: 3px 5px;
+  border: 1px solid var(--border, #ddd);
+  border-radius: 4px;
+  background: #fff;
+  color: inherit;
+}
+
+.user-table .empty {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-m, #555);
+}
+
 .user-table tbody tr:nth-child(even) {
   background: rgba(0, 0, 0, 0.02);
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.pagination-controls,
+.pagination-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-controls button {
+  min-width: 32px;
+  padding: 4px 8px;
+  border: 1px solid var(--border, #ddd);
+  border-radius: 4px;
+  background: #ffffff00;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pagination-info,
+.pagination-total {
+  font-size: 14px;
+  color: var(--text-m, #555);
+}
+
+.pagination-size select {
+  margin-left: 4px;
+  padding: 3px 5px;
 }

@@ -1,6 +1,12 @@
-import type { SortState } from "../models/SortState";
-import type { User } from "../models/User";
+import type { Users } from "../models/Users";
 
 export interface UserRepository {
-    getUsers(sort: SortState): Promise<User[]>;
-  }
+  getUsers(
+    query: {
+      filter?: { key: string; value: string };
+      sort?: { field: string; order: "asc" | "desc" };
+      page: number;
+    },
+    signal?: AbortSignal
+  ): Promise<Users>;
+}
