@@ -1,12 +1,9 @@
+import type { GetUserParams } from "../models/GetUserParams";
 import type { Users } from "../models/Users";
 
 export interface UserRepository {
   getUsers(
-    query: {
-      filter?: { key: string; value: string };
-      sort?: { field: string; order: "asc" | "desc" };
-      page: number;
-    },
+    params: GetUserParams,
     signal?: AbortSignal
   ): Promise<Users>;
 }

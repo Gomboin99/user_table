@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import type { User } from "../../domain/models/User";
-import type { SortState } from "../../domain/models/SortState";
-import type { SortableField } from "../../domain/models/types/SortableField";
-import type { FilterState } from "../../domain/models/types/FilterState";
-import { Gender } from "../../domain/models/enums/Gender";
+import type { UserSortState } from "../../domain/models/UserSortState";
+import type { UserFieldForActions } from "../../domain/models/types/UserFieldForActions";
+import type { UserFilterState } from "../../domain/models/types/UserFilterState";
+import { UserGender } from "../../domain/models/enums/UserGender";
 import { SortableHeader } from "./SortableHeader";
 import { Resizer } from "./Resizer";
 import { useColumnResize } from "../hooks/useColumnResize";
@@ -11,7 +11,7 @@ import { useColumnResize } from "../hooks/useColumnResize";
 interface Column {
   key: keyof User;
   label: string;
-  field?: SortableField;
+  field?: UserFieldForActions;
 }
 
 const COLUMNS: Column[] = [
@@ -28,16 +28,16 @@ const COLUMNS: Column[] = [
 
 interface UserTableProps {
   users: User[];
-  sort: SortState;
-  onSort: (field: SortableField) => void;
-  filter: FilterState;
-  onFilterChange: (field: SortableField, value: string) => void;
+  sort: UserSortState;
+  onSort: (field: UserFieldForActions) => void;
+  filter: UserFilterState;
+  onFilterChange: (field: UserFieldForActions, value: string) => void;
 }
 
 function renderCell(user: User, key: keyof User) {
   if (key === "middleName") return user.middleName ?? "—";
   if (key === "gender") {
-    return user.gender === Gender.Male ? "Мужской" : "Женский";
+    return user.gender === UserGender.Male ? "Мужской" : "Женский";
   }
   return user[key] as string | number;
 }
@@ -55,7 +55,7 @@ export function UserTable({ users, sort, onSort, filter, onFilterChange }: UserT
         <select
           className="filter-control"
           value={value}
-          onChange={(e) => onFilterChange(column.field as SortableField, e.target.value)}
+          onChange={(e) => onFilterChange(column.field as UserFieldForActions, e.target.value)}
         >
           <option value="">Все</option>
           <option value="male">Мужской</option>
@@ -70,7 +70,7 @@ export function UserTable({ users, sort, onSort, filter, onFilterChange }: UserT
         type="text"
         placeholder="Фильтр"
         value={value}
-        onChange={(e) => onFilterChange(column.field as SortableField, e.target.value)}
+        onChange={(e) => onFilterChange(column.field as UserFieldForActions, e.target.value)}
       />
     );
   };

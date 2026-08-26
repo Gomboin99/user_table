@@ -1,14 +1,14 @@
 import type { ReactNode } from "react";
-import type { SortableField } from "../../domain/models/types/SortableField";
+import type { UserFieldForActions } from "../../domain/models/types/UserFieldForActions";
 import { SortDirection } from "../../domain/models/enums/SortDirection";
-import type { SortState } from "../../domain/models/SortState";
+import type { UserSortState } from "../../domain/models/UserSortState";
 import { Resizer } from "./Resizer";
 
 interface SortableHeaderProps {
   label: string;
-  field: SortableField;
-  sort: SortState;
-  onSort: (field: SortableField) => void;
+  field: UserFieldForActions;
+  sort: UserSortState;
+  onSort: (field: UserFieldForActions) => void;
   width?: number;
   onResizeStart: (e: React.MouseEvent) => void;
   filterControl?: ReactNode;

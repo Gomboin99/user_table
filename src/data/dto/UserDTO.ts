@@ -1,4 +1,4 @@
-import type { Gender } from "../../domain/models/enums/Gender";
+import type { Gender } from "../../domain/models/enums/UserGender";
 
 export interface UserDTO {
     id: number;
