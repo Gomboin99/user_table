@@ -1,4 +1,4 @@
-export type SortableField =
+export type UserFieldForActions =
   | "lastName"
   | "firstName"
   | "age"

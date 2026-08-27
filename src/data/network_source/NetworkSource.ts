@@ -1,7 +1,6 @@
-
-import type { SortState } from "../../domain/models/SortState";
 import type { UsersDTO } from "../dto/UsersDTO";
+import type { UserRequest } from "../requests/UserRequest";
 
 export interface NetworkSource {
-  fetchUsers(sort: SortState): Promise<UsersDTO>;
+  fetchUsers(request: UserRequest, signal?: AbortSignal): Promise<UsersDTO>;
 }

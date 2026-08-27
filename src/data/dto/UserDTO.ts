@@ -1,4 +1,4 @@
-import type { Gender } from "../../domain/models/enums/Gender";
+import type { UserGender } from "../../domain/models/enums/UserGender";
 
 export interface UserDTO {
     id: number;
@@ -6,12 +6,18 @@ export interface UserDTO {
     lastName: string;
     maidenName: string;
     age: number;
-    gender: Gender;
+    gender: UserGender;
     email: string;
     phone: string;
+    image: string;
+    height: number;
+    weight: number;
     address: {
-      country: string;
+      address: string;
       city: string;
+      state: string;
+      postalCode: string;
+      country: string;
     };
   }
   

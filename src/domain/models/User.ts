@@ -1,4 +1,4 @@
-import type { Gender } from "./enums/Gender";
+import type { UserGender } from "./enums/UserGender";
 
 export interface User {
   id: number;
@@ -6,9 +6,15 @@ export interface User {
   firstName: string;
   middleName?: string;
   age: number;
-  gender: Gender;
+  gender: UserGender;
   phone: string;
   email: string;
+  avatar?: string;
+  height?: number;
+  weight?: number;
+  street?: string;
+  state?: string;
+  postalCode?: string;
   country: string;
   city: string;
 }

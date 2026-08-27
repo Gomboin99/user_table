@@ -1,6 +1,9 @@
-import type { SortState } from "../models/SortState";
-import type { User } from "../models/User";
+import type { GetUserParams } from "../models/GetUserParams";
+import type { Users } from "../models/Users";
 
 export interface UserRepository {
-    getUsers(sort: SortState): Promise<User[]>;
-  }
+  getUsers(
+    params: GetUserParams,
+    signal?: AbortSignal
+  ): Promise<Users>;
+}
