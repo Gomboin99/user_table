@@ -12,6 +12,12 @@ export const UserMapper = {
       gender: dto.gender,
       phone: dto.phone,
       email: dto.email,
+      avatar: dto.image,
+      height: dto.height,
+      weight: dto.weight,
+      street: dto.address.address,
+      state: dto.address.state,
+      postalCode: dto.address.postalCode,
       country: dto.address.country,
       city: dto.address.city,
     };

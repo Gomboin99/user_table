@@ -9,9 +9,15 @@ export interface UserDTO {
     gender: UserGender;
     email: string;
     phone: string;
+    image: string;
+    height: number;
+    weight: number;
     address: {
-      country: string;
+      address: string;
       city: string;
+      state: string;
+      postalCode: string;
+      country: string;
     };
   }
   

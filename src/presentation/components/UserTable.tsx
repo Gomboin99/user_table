@@ -6,7 +6,9 @@ import type { UserFilterState } from "../../domain/models/types/UserFilterState"
 import { UserGender } from "../../domain/models/enums/UserGender";
 import { SortableHeader } from "./SortableHeader";
 import { Resizer } from "./Resizer";
+import { useState } from "react";
 import { useColumnResize } from "../hooks/useColumnResize";
+import { UserDetailsModal } from "./UserDetailsModal";
 
 interface Column {
   key: keyof User;
@@ -45,6 +47,7 @@ function renderCell(user: User, key: keyof User) {
 export function UserTable({ users, sort, onSort, filter, onFilterChange }: UserTableProps) {
   const tableRef = useRef<HTMLTableElement>(null);
   const { widths, startResize } = useColumnResize(tableRef, COLUMNS.length);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const renderFilterControl = (column: Column) => {
     if (!column.field) return null;
@@ -76,7 +79,8 @@ export function UserTable({ users, sort, onSort, filter, onFilterChange }: UserT
   };
 
   return (
-    <table ref={tableRef} className="user-table">
+    <>
+      <table ref={tableRef} className="user-table">
       <thead>
         <tr>
           {COLUMNS.map((column, index) => {
@@ -119,7 +123,11 @@ export function UserTable({ users, sort, onSort, filter, onFilterChange }: UserT
           </tr>
         ) : (
           users.map((user) => (
-            <tr key={user.id}>
+            <tr
+              key={user.id}
+              className="clickable-row"
+              onClick={() => setSelectedUser(user)}
+            >
               {COLUMNS.map((column) => (
                 <td key={column.key}>{renderCell(user, column.key)}</td>
               ))}
@@ -128,5 +136,7 @@ export function UserTable({ users, sort, onSort, filter, onFilterChange }: UserT
         )}
       </tbody>
     </table>
+    <UserDetailsModal user={selectedUser} onClose={() => setSelectedUser(null)} />
+    </>
   );
 }

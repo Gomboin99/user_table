@@ -9,6 +9,12 @@ export interface User {
   gender: UserGender;
   phone: string;
   email: string;
+  avatar?: string;
+  height?: number;
+  weight?: number;
+  street?: string;
+  state?: string;
+  postalCode?: string;
   country: string;
   city: string;
 }
