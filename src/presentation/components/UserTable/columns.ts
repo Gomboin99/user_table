@@ -1,6 +1,7 @@
 import type { User } from "../../../domain/models/User";
 import type { UserFieldForActions } from "../../../domain/models/types/UserFieldForActions";
 
+
 export interface Column {
   key: keyof User;
   label: string;

@@ -1,6 +1,7 @@
-import type { Column } from "./columns";
 import type { UserFieldForActions } from "../../../domain/models/types/UserFieldForActions";
 import type { UserFilterState } from "../../../domain/models/types/UserFilterState";
+import type { Column } from "./columns";
+
 
 interface UserFilterControlProps {
   column: Column;
