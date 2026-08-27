@@ -1,13 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import type { User } from "../../domain/models/User";
-import type { UserRepository } from "../../domain/interfaces/UserRepository";
-import { RequestError } from "../../errors/Errors";
 import { container } from "../../di/Container";
+import type { GetUserParams } from "../../domain/models/GetUserParams";
+import type { GetUsersFailure, GetUsersSuccess } from "../../domain/models/GetUserResult";
 
-type UsersQuery = Parameters<UserRepository["getUsers"]>[0];
-
-export function useFetchUsers(query: UsersQuery) {
-  const userRepository = container.getUsersRepository();
+export function useFetchUsers(params: GetUserParams) {
+  const userInteractor = container.getUserInteractor();
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -18,25 +16,17 @@ export function useFetchUsers(query: UsersQuery) {
     const controller = new AbortController();
     let cancelled = false;
 
-    userRepository
-      .getUsers(query, controller.signal)
-      .then(({ users, total }) => {
+    userInteractor
+      .getUsers(params, controller.signal, setLoading)
+      .then((result: GetUsersSuccess) => {
         if (cancelled) return;
-        setUsers(users);
-        setTotal(total);
+        setUsers(result.users);
+        setTotal(result.total);
         setError(null);
       })
-      .catch((err: unknown) => {
+      .catch((result: GetUsersFailure) => {
         if (cancelled) return;
-        if (err instanceof RequestError) {
-          setError(err.message);
-        } else if (err instanceof DOMException && err.name === "AbortError") {
-          setError(null);
-        } else if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Неизвестная ошибка");
-        }
+        setError(result.error);
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -46,7 +36,7 @@ export function useFetchUsers(query: UsersQuery) {
       cancelled = true;
       controller.abort();
     };
-  }, [userRepository, query, reloadToken]);
+  }, [userInteractor, params, reloadToken]);
 
   const reload = useCallback(() => {
     setError(null);

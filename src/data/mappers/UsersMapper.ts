@@ -6,7 +6,7 @@ export const UsersMapper = {
     fromDTO(dto: UsersDTO): Users {
       return {
         users: dto.users.map(UserMapper.fromDTO),
-      total: dto.total,
+        total: dto.total,
       };
     },
   };

@@ -1,13 +1,14 @@
-import { PAGE_SIZE } from "../../config/constants";
 import { useUserTableState } from "./useUserTableState";
 import { useFetchUsers } from "./useFetchUsers";
+import { container } from "../../di/Container";
 
 export function useUsers() {
+  const userInteractor = container.getUserInteractor();
   const { params, sort, rawFilter, page, cycleSort, changeFilter, goToPage } =
     useUserTableState();
   const { users, total, loading, error, reload } = useFetchUsers(params);
 
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const totalPages = userInteractor.calculateTotalPages(total);
 
   return {
     users,
