@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import type { User } from "../../domain/models/User";
 import { container } from "../../di/Container";
 import type { GetUserParams } from "../../domain/models/GetUserParams";
-import type { GetUsersFailure, GetUsersSuccess } from "../../domain/models/GetUserResult";
+import type { GetUsersResult } from "../../domain/models/GetUserResult";
 
 export function useFetchUsers(params: GetUserParams) {
   const userInteractor = container.getUserInteractor();
@@ -15,18 +15,18 @@ export function useFetchUsers(params: GetUserParams) {
   useEffect(() => {
     const controller = new AbortController();
     let cancelled = false;
-
+    
     userInteractor
       .getUsers(params, controller.signal, setLoading)
-      .then((result: GetUsersSuccess) => {
+      .then((result: GetUsersResult) => {
         if (cancelled) return;
-        setUsers(result.users);
-        setTotal(result.total);
-        setError(null);
-      })
-      .catch((result: GetUsersFailure) => {
-        if (cancelled) return;
-        setError(result.error);
+        if (result.success) {
+          setUsers(result.users);
+          setTotal(result.total);
+          setError(null);
+        } else {
+          setError(result.error);
+        }
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
